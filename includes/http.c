@@ -59,6 +59,7 @@ int init_listener_socket(uint16_t port) {
     }
     
     //Initialize all to 0 and then fill in attributes
+    //Will bind to all network interfaces
     memset(&server_adr, 0, sizeof(server_adr));
     server_adr.sin_family      = AF_INET;
     server_adr.sin_addr.s_addr = htonl(INADDR_ANY); //inet_addr("127.0.0.1");
@@ -73,7 +74,7 @@ int init_listener_socket(uint16_t port) {
 
     //Bind the socket address
     if (bind(listen_fd, (struct sockaddr*) &server_adr, sizeof(server_adr)) < 0 ) {
-        fprintf(stderr, "[-] Error calling bind()\n");
+        perror("[-] Error calling bind()");
         exit(EXIT_FAILURE);
     }
 
